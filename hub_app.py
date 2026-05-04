@@ -251,7 +251,7 @@ MENU_OPTIONS = {
     "**:blue[🏠 Home]**":              _view_home,
     "**:green[⚙️ Configuración]**":    _view_config,
     "**:orange[🗄️ DB]**":             _view_db,
-    "**:violet[💻 Automatizaciones]**": _view_automations,
+   # "**:violet[💻 Automatizaciones]**": _view_automations,
 }
 
 
