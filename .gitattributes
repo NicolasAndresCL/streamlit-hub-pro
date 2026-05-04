@@ -1,0 +1,8 @@
+# Normaliza saltos de línea automáticamente
+* text=auto
+
+# Python siempre con LF (estándar de la comunidad)
+*.py text eol=lf
+
+# Windows scripts con CRLF
+*.bat text eol=crlf
