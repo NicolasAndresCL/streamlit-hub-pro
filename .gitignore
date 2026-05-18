@@ -1,2 +1,49 @@
-*.streamlit
+# ── Entorno virtual ───────────────────────────────────────────────────────────
+env/
+venv/
+.venv/
+ENV/
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Base de datos (generada en runtime) ───────────────────────────────────────
+canales_hub.db
 *.db
+*.sqlite
+*.sqlite3
+
+# ── Logs (generados en runtime) ───────────────────────────────────────────────
+*.log
+hub.log
+
+# ── Streamlit cache ───────────────────────────────────────────────────────────
+.streamlit/secrets.toml
+__streamlit_session_state__/
+
+# ── IDEs ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Variables de entorno ──────────────────────────────────────────────────────
+.env
+.env.local
+.env.production
+
+# ── Pytest / Coverage ─────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
