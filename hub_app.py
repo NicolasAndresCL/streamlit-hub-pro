@@ -23,6 +23,17 @@ logging.basicConfig(
 logger = logging.getLogger("hub")
 
 
+def _parse_pid(value) -> Optional[int]:
+    """Convierte un valor de pid de la DB a int, o None si está vacío/inválido."""
+    try:
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            return None
+        stripped = str(value).strip()
+        return int(stripped) if stripped else None
+    except (ValueError, TypeError):
+        return None
+
+
 # ---------------------------------------------------------------------------
 # Database Manager
 # ---------------------------------------------------------------------------
@@ -101,7 +112,8 @@ class DatabaseManager:
         stale_ids = [
             int(row["id"])
             for _, row in df.iterrows()
-            if pd.notna(row["pid"]) and not ProcessManager.is_running(int(row["pid"]))
+            for pid in [_parse_pid(row["pid"])]
+            if pid is not None and not ProcessManager.is_running(pid)
         ]
         if stale_ids:
             placeholders = ",".join("?" * len(stale_ids))
@@ -311,8 +323,8 @@ class HubUI:
         st.caption(f"🐍 Entorno: `{row['env_path']}`")
         st.text(f"🔌 Puerto: {row['port']}")
 
-        pid_value = row["pid"]
-        is_alive = pd.notna(pid_value) and ProcessManager.is_running(int(pid_value))
+        pid_value = _parse_pid(row["pid"])
+        is_alive = pid_value is not None and ProcessManager.is_running(pid_value)
 
         if is_alive:
             st.success("🟢 En ejecución")
@@ -320,10 +332,10 @@ class HubUI:
                 f"**[🔗 Abrir Aplicación (localhost:{row['port']})](http://localhost:{row['port']})**"
             )
             if st.button("⏹️ Detener Canal", key=f"stop_{row['id']}", use_container_width=True):
-                ProcessManager.stop(row["id"], int(pid_value), self._db)
+                ProcessManager.stop(row["id"], pid_value, self._db)
                 st.rerun()
         else:
-            if pd.notna(pid_value):
+            if pid_value is not None:
                 self._db.set_pid(row["id"], None)
             if st.button("▶️ Iniciar Canal", key=f"start_{row['id']}", use_container_width=True):
                 ProcessManager.start(
