@@ -27,7 +27,7 @@ canales_hub.db
 hub.log
 
 # ── Streamlit cache ───────────────────────────────────────────────────────────
-.streamlit/secrets.toml
+.streamlit/
 __streamlit_session_state__/
 
 # ── IDEs ──────────────────────────────────────────────────────────────────────
